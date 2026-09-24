@@ -1,20 +1,78 @@
 {
-  "oof_auc": 0.6403,
-  "time_holdout_auc": 0.6575,
+  "oof_auc": 0.6425,
+  "time_holdout_auc": 0.6619,
   "model_auc": {
-    "lgb": 0.6401,
-    "cat": 0.6313,
-    "xgb": 0.6349
+    "lgb": 0.6409,
+    "cat": 0.6372,
+    "xgb": 0.6375
   },
   "weights": {
-    "lgb": 0.9,
-    "cat": 0.1,
-    "xgb": -0.0
+    "lgb": 0.5,
+    "cat": 0.2,
+    "xgb": 0.3
   },
   "adversarial_auc": 0.4987,
   "dropped_features": [],
-  "n_features": 165,
+  "n_features": 80,
   "n_train": 14000,
   "n_test": 6000,
-  "target_rate": 0.1718
+  "target_rate": 0.1718,
+  "lgb_params": {
+    "learning_rate": 0.02,
+    "num_leaves": 7,
+    "min_child_samples": 200,
+    "feature_fraction": 0.4,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l1": 0.1,
+    "lambda_l2": 10.0
+  },
+  "search_log": [
+    {
+      "step": "features",
+      "top_k": 30,
+      "auc": 0.6327
+    },
+    {
+      "step": "features",
+      "top_k": 50,
+      "auc": 0.633
+    },
+    {
+      "step": "features",
+      "top_k": 80,
+      "auc": 0.6346
+    },
+    {
+      "step": "features",
+      "top_k": 120,
+      "auc": 0.6324
+    },
+    {
+      "step": "params",
+      "config": "regularised",
+      "auc": 0.6362
+    },
+    {
+      "step": "params",
+      "config": "strong_reg",
+      "auc": 0.6395
+    },
+    {
+      "step": "params",
+      "config": "shallow_wide",
+      "auc": 0.6373
+    }
+  ],
+  "n_tx_train": 6987663,
+  "n_tx_test": 3027575,
+  "tx_per_alert_median": 461.0,
+  "train_dates": [
+    "2025-01-01",
+    "2026-12-31"
+  ],
+  "test_dates": [
+    "2025-01-01",
+    "2026-12-31"
+  ]
 }
