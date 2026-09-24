@@ -1,0 +1,20 @@
+{
+  "oof_auc": 0.6403,
+  "time_holdout_auc": 0.6575,
+  "model_auc": {
+    "lgb": 0.6401,
+    "cat": 0.6313,
+    "xgb": 0.6349
+  },
+  "weights": {
+    "lgb": 0.9,
+    "cat": 0.1,
+    "xgb": -0.0
+  },
+  "adversarial_auc": 0.4987,
+  "dropped_features": [],
+  "n_features": 165,
+  "n_train": 14000,
+  "n_test": 6000,
+  "target_rate": 0.1718
+}
