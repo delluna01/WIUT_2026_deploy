@@ -1,10 +1,10 @@
-
-
 import json
 from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+
+from styles import inject_css
 
 ROOT = Path(__file__).parent
 IMG = ROOT / "images"
@@ -12,6 +12,7 @@ ASSETS = ROOT / "assets"
 
 st.set_page_config(page_title="AML Alert Prioritization — EDA", page_icon="🔎", layout="wide")
 
+inject_css()
 
 def todo(text):
     """Placeholder. Replace the call with st.markdown("...your text...")."""
@@ -49,13 +50,29 @@ with st.sidebar:
     )
     st.caption("System Web Analysis Group · E86FDEB5")
 
-# ---------- Header ----------
-st.title("AML Alert Prioritization")
-st.markdown(
-    "A financial-sector monitoring unit reviews automated alerts built from customers' transaction "
-    "histories and either dismisses them or escalates them for investigation. We estimate the "
-    "probability of escalation for each alert and explain what the data taught us along the way."
+# ---------- Hero ----------
+st.html(
+    """
+    <div class="hero">
+
+        <div class="hero-kicker">
+            SYSTEM WEB ANALYSIS GROUP · E86FDEB5
+        </div>
+
+        <div class="hero-title">
+            AML Alert Prioritization
+        </div>
+
+        <div class="hero-subtitle">
+            Using transaction histories to identify patterns associated with
+            alert escalation and estimate the probability that an alert
+            requires further investigation.
+        </div>
+
+    </div>
+    """
 )
+
 if M:
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Training alerts", num("n_train"))
@@ -64,22 +81,73 @@ if M:
     c4.metric("Cross-validated ROC-AUC", num("oof_auc", "{:.4f}"))
 
 # ---------- 1. Approach ----------
-st.header("Approach", anchor="approach")
 st.markdown(
-    f"""
-Each alert comes with a history of transactions, so the core of the task is turning a variable-length
-history into a fixed set of numbers a model can use. Our pipeline:
-
-1. **Data checks** — date ranges, transactions after the alert date (none found), train/test similarity.
-2. **Exploratory analysis** — how escalated and dismissed alerts differ in volume, timing, direction,
-   transaction type and size (the charts below).
-3. **Feature engineering** — {num('n_features')} features per alert, each motivated by an EDA observation
-   or a known money-laundering pattern.
-4. **Modelling** — LightGBM, CatBoost and XGBoost, evaluated with 5-fold stratified cross-validation and
-   combined in a rank-averaged ensemble. ROC-AUC depends only on the ordering of predictions,
-   so ranking the alerts well is all that matters.
-"""
+    '<div class="section-label">01 — APPROACH</div>',
+    unsafe_allow_html=True,
 )
+
+st.header("From transaction history to escalation risk", anchor="approach")
+
+st.markdown(
+    """
+    Each alert comes with a history of transactions, so the core of the task is turning
+    a variable-length history into a fixed set of numbers a model can use. Our pipeline:
+    """
+)
+
+a1, a2, a3, a4 = st.columns(4)
+
+with a1:
+    st.markdown(
+        """
+        <div class="content-card">
+            <div class="insight-title">01 · Data checks</div>
+            <div class="insight-text">
+                Date ranges, transactions after the alert date (none found), train/test similarity.
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+with a2:
+    st.markdown(
+        """
+        <div class="content-card">
+            <div class="insight-title">02 · Exploratory Analysis</div>
+            <div class="insight-text">
+                How escalated and dismissed alerts differ in volume, timing, direction, transaction type and size (the charts below).
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+with a3:
+    st.markdown(
+        f"""
+        <div class="content-card">
+            <div class="insight-title">03 · Feature engineering</div>
+            <div class="insight-text">
+                80 features per alert, each motivated by an EDA observation or a known money-laundering pattern.
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+with a4:
+    st.markdown(
+        """
+        <div class="content-card">
+            <div class="insight-title">04 · Modelling</div>
+            <div class="insight-text">
+                LightGBM, CatBoost and XGBoost, evaluated with 5-fold stratified cross-validation and combined in a rank-averaged ensemble. ROC-AUC depends only on the ordering of predictions, so ranking the alerts well is all that matters.
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 # ---------- 2. Data ----------
 st.header("Dataset overview", anchor="data")
