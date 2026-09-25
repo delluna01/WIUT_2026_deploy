@@ -44,8 +44,8 @@ def num(key, fmt="{:,}", default="—"):
 with st.sidebar:
     st.markdown("### Contents")
     st.markdown(
-        "- [Approach](#approach)\n- [Data](#data)\n- [Target](#target)\n"
-        "- [Transactions](#transactions)\n- [Behaviour before alerts](#behavior)\n"
+        "- [Approach](#approach)\n- [Dataset](#data)\n- [Target](#target)\n"
+        "- [Transactions](#transactions)\n- [Pre-alert behaviour](#behavior)\n"
         "- [Features and model](#features)\n- [Conclusion](#conclusion)"
     )
     st.caption("System Web Analysis Group · E86FDEB5")
@@ -149,7 +149,11 @@ with a4:
         unsafe_allow_html=True,
     )
 
-# ---------- 2. Data ----------
+# ---------- 2. Dataset ----------
+st.markdown(
+    '<div class="section-label">02 — DATASET</div>',
+    unsafe_allow_html=True,
+)
 st.header("Dataset overview", anchor="data")
 st.markdown(
     """
@@ -180,6 +184,10 @@ figure("02_signals_over_time", "Weekly alerts in train and test")
 todo("insight for the alerts-over-time chart (from Member 2)")
 
 # ---------- 3. Target ----------
+st.markdown(
+    '<div class="section-label">03 — TARGET</div>',
+    unsafe_allow_html=True,
+)
 st.header("Target distribution", anchor="target")
 figure("01_target_distribution", "Dismissed vs escalated alerts")
 st.markdown(
@@ -191,6 +199,10 @@ ones and is not affected by the class ratio. Stratified folds keep the same esca
 )
 
 # ---------- 4. Transactions ----------
+st.markdown(
+    '<div class="section-label">04 — TRANSACTIONS</div>',
+    unsafe_allow_html=True,
+)
 st.header("Transactions: time, types, sizes", anchor="transactions")
 figure("03_tx_over_time", "Transactions per month")
 todo("insight for the activity-over-time chart (from Member 2)")
@@ -199,8 +211,12 @@ todo("insight: which types are more frequent for escalated alerts (from Member 2
 figure("05_amount_distribution", "Distribution of miqdor_indeksi")
 todo("insight about transaction sizes (from Member 2)")
 
-# ---------- 5. Behaviour ----------
-st.header("Behaviour before the alert", anchor="behavior")
+# ---------- 5. Pre-alert behaviour ----------
+st.markdown(
+    '<div class="section-label">05 — PRE-ALERT BEHAVIOUR</div>',
+    unsafe_allow_html=True,
+)
+st.header("Transaction Activity Before an Alert", anchor="behavior")
 figure("06_activity_before_signal", "Activity during the 90 days before the alert")
 todo("insight: how activity changes before escalated vs dismissed alerts (from Member 2)")
 figure("07_class_comparison", "Escalated vs dismissed alerts")
@@ -209,6 +225,10 @@ figure("08_hour_weekday", "Hour of day and day of week")
 todo("insight about time of day / weekday, or delete this block if the data has no time of day (from Member 2)")
 
 # ---------- 6. Features and model ----------
+st.markdown(
+    '<div class="section-label">06 — FEATURES AND MODEL</div>',
+    unsafe_allow_html=True,
+)
 st.header("Features motivated by the EDA", anchor="features")
 st.markdown(
     """
@@ -253,6 +273,10 @@ else:
     st.info("Feature importance will appear after running notebooks/final.ipynb.")
 
 # ---------- 7. Conclusion ----------
+st.markdown(
+    '<div class="section-label">07 — CONCLUSION</div>',
+    unsafe_allow_html=True,
+)
 st.header("Conclusion", anchor="conclusion")
 st.markdown(
     f"""
