@@ -11,7 +11,8 @@ def inject_css():
         ================================= */
 
         .stApp {
-            background: #f5f7fa;
+            background: var(--background-color, #f5f7fa);
+            color: var(--text-color, #111827);
         }
 
         .main .block-container {
@@ -38,6 +39,12 @@ def inject_css():
             font-weight: 650 !important;
         }
 
+        /* Body Text */
+        [data-testid="stMarkdownContainer"] p {
+            font-size: 1 rem;
+            line-height: 1.65
+        }
+
 
         /* ================================
            SIDEBAR
@@ -61,8 +68,8 @@ def inject_css():
         ================================= */
 
         [data-testid="stMetric"] {
-            background: white;
-            border: 1px solid #e5e7eb;
+            background: var(--secondary-background-color, #ffffff);
+            border: 1px solid rgba(128, 128, 128, 0.25);
             border-radius: 14px;
             padding: 1.1rem 1.2rem;
             box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
@@ -75,12 +82,13 @@ def inject_css():
         }
 
         [data-testid="stMetricLabel"] {
-            color: #64748b !important;
+            color: var(--text-color, #64748b) !important;
             font-size: 0.82rem !important;
+            opacity: 0.75;
         }
 
         [data-testid="stMetricValue"] {
-            color: #111827 !important;
+            color: var(--text-color, #111827) !important;
             font-weight: 700 !important;
         }
 
@@ -90,13 +98,13 @@ def inject_css():
         ================================= */
 
         .content-card {
-            background: white;
-            border: 1px solid #e5e7eb;
+            background: var(--secondary-background-color, #ffffff);
+            border: 1px solid rgba(128, 128, 128, 0.25);
             border-radius: 16px;
             padding: 1.5rem;
             margin: 1rem 0;
             min-height: 220px;
-            height: 220px;
+            height: auto;
             box-sizing: border-box;
             box-shadow: 0 2px 10px rgba(15, 23, 42, 0.035);
             transition:
@@ -108,12 +116,12 @@ def inject_css():
         .content-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
-            border-color: #cbd5e1;
+            border-color: var(--text-color, #cbd5e1);
         }
 
         .insight-card {
-            background: #ffffff;
-            border-left: 4px solid #64748b;
+            background: var(--secondary-background-color, #ffffff);
+            border-left: 4px solid var(--text-color, #64748b);
             border-radius: 12px;
             padding: 1.1rem 1.3rem;
             margin: 1rem 0;
@@ -121,13 +129,14 @@ def inject_css():
 
         .insight-title {
             font-weight: 700;
-            color: #111827;
+            color: var(--text-color, #111827);
             margin-bottom: 0.35rem;
         }
 
         .insight-text {
-            color: #475569;
+            color: var(--text-color, #475569);
             line-height: 1.6;
+            opacity: 0.8;
         }
 
 
@@ -184,7 +193,7 @@ def inject_css():
         ================================= */
 
         .section-label {
-            color: #64748b;
+            color: var(--text-color, #64748b);
             font-size: 0.75rem;
             font-weight: 750;
             letter-spacing: 0.12em;
@@ -199,8 +208,8 @@ def inject_css():
         ================================= */
 
         .chart-card {
-            background: white;
-            border: 1px solid #e5e7eb;
+            background: var(--secondary-background-color, #ffffff);
+            border: 1px solid rgba(128, 128, 128, 0.25);
             border-radius: 16px;
             padding: 1rem;
             margin: 1rem 0;
@@ -235,7 +244,7 @@ def inject_css():
 
         hr {
             border: none;
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid rgba(128, 128, 128, 0.25);
             margin: 2rem 0;
         }
 

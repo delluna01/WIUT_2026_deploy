@@ -142,7 +142,7 @@ with a4:
         <div class="content-card">
             <div class="insight-title">04 · Modelling</div>
             <div class="insight-text">
-                LightGBM, CatBoost and XGBoost, evaluated with 5-fold stratified cross-validation and combined in a rank-averaged ensemble. ROC-AUC depends only on the ordering of predictions, so ranking the alerts well is all that matters.
+                LightGBM, CatBoost and XGBoost were evaluated using 5-fold stratified cross-validation and combined via rank averaging. ROC-AUC depends solely on prediction ordering, so ranking alerts correctly is the first priority.
             </div>
         </div>
         """,
