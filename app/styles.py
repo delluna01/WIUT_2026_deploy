@@ -1,6 +1,5 @@
 import streamlit as st
 
-
 def inject_css():
     st.markdown(
         """
@@ -11,8 +10,19 @@ def inject_css():
         ================================= */
 
         .stApp {
-            background: var(--background-color, #f5f7fa);
-            color: var(--text-color, #111827);
+            background: #E9EAF2;
+            color: #414770;
+        }
+
+        [data-testid="stHeader"] {
+            background: transparent !important;
+        }
+
+        [data-testid="stHeader"] :is(button, a, [role="button"]),
+        [data-testid="stHeader"] :is(button, a, [role="button"]) *,
+        [data-testid="stToolbar"] :is(button, a, [role="button"]),
+        [data-testid="stToolbar"] :is(button, a, [role="button"]) * {
+            color: inherit !important;
         }
 
         .main .block-container {
@@ -41,8 +51,19 @@ def inject_css():
 
         /* Body Text */
         [data-testid="stMarkdownContainer"] p {
-            font-size: 1 rem;
-            line-height: 1.65
+            font-size: 1rem;
+            line-height: 1.65;
+        }
+
+        [data-testid="stAlert"] {
+            background: rgba(128, 128, 128, 0.08);
+            border-left: 4px solid #f59e0b;
+            color: inherit !important;
+        }
+
+        [data-testid="stAlert"] [data-testid="stMarkdownContainer"],
+        [data-testid="stAlert"] [data-testid="stMarkdownContainer"] * {
+            color: inherit !important;
         }
 
 
@@ -51,11 +72,22 @@ def inject_css():
         ================================= */
 
         [data-testid="stSidebar"] {
-            background: #111827;
+            background: #414770;
         }
 
         [data-testid="stSidebar"] * {
             color: #e5e7eb;
+        }
+
+        [data-testid="stSidebar"] a,
+        [data-testid="stSidebar"] a:visited {
+            color: #B7C3F3 !important;
+            text-decoration: none !important;
+        }
+
+        [data-testid="stSidebar"] a:hover {
+            color: #DD7596 !important;
+            text-decoration: none !important;
         }
 
         [data-testid="stSidebar"] h3 {
@@ -68,9 +100,10 @@ def inject_css():
         ================================= */
 
         [data-testid="stMetric"] {
-            background: var(--secondary-background-color, #ffffff);
+            background: rgba(128, 128, 128, 0.08);
             border: 1px solid rgba(128, 128, 128, 0.25);
             border-radius: 14px;
+            border-bottom: 3px solid #DD7596;
             padding: 1.1rem 1.2rem;
             box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -79,16 +112,26 @@ def inject_css():
         [data-testid="stMetric"]:hover {
             transform: translateY(-4px);
             box-shadow: 0 10px 25px rgba(15, 23, 42, 0.10);
+            border-color: #DD7596;
         }
 
         [data-testid="stMetricLabel"] {
-            color: var(--text-color, #64748b) !important;
-            font-size: 0.82rem !important;
-            opacity: 0.75;
+            color: inherit !important;
+            font-size: 1rem !important;
+            font-weight: 500 !important;
+        }
+
+        [data-testid="stMetricValue"] p {
+            font-size: 2.25rem !important;
+            font-weight: 700 !important;
+        }
+        
+        [data-testid="stMetricLabel"] p {
+            font-size: 1rem !important;
+            font-weight: 500 !important;
         }
 
         [data-testid="stMetricValue"] {
-            color: var(--text-color, #111827) !important;
             font-weight: 700 !important;
         }
 
@@ -98,7 +141,7 @@ def inject_css():
         ================================= */
 
         .content-card {
-            background: var(--secondary-background-color, #ffffff);
+            background: rgba(128, 128, 128, 0.08);
             border: 1px solid rgba(128, 128, 128, 0.25);
             border-radius: 16px;
             padding: 1.5rem;
@@ -115,13 +158,13 @@ def inject_css():
 
         .content-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
-            border-color: var(--text-color, #cbd5e1);
+            box-shadow: 0 12px 28px rgba(221, 117, 150, 0.18);
+            border-color: #DD7596;
         }
 
         .insight-card {
-            background: var(--secondary-background-color, #ffffff);
-            border-left: 4px solid var(--text-color, #64748b);
+            background: rgba(128, 128, 128, 0.08);
+            border-left: 4px solid #DD7596;
             border-radius: 12px;
             padding: 1.1rem 1.3rem;
             margin: 1rem 0;
@@ -129,14 +172,13 @@ def inject_css():
 
         .insight-title {
             font-weight: 700;
-            color: var(--text-color, #111827);
+            color: inherit;
             margin-bottom: 0.35rem;
         }
 
         .insight-text {
-            color: var(--text-color, #475569);
+            color: inherit;
             line-height: 1.6;
-            opacity: 0.8;
         }
 
 
@@ -147,8 +189,8 @@ def inject_css():
         .hero {
             background: linear-gradient(
                 135deg,
-                #111827 0%,
-                #1e293b 100%
+                #414770 0%,
+                #343957 100%
             );
             border-radius: 20px;
             padding: 2.8rem 3rem;
@@ -164,12 +206,23 @@ def inject_css():
         }
 
         .hero-kicker {
-            color: #94a3b8;
+            color: #B7C3F3;
             font-size: 0.78rem;
             font-weight: 700;
             letter-spacing: 0.12em;
             text-transform: uppercase;
             margin-bottom: 0.7rem;
+        }
+
+        .hero-kicker::before {
+            content: "";
+            display: inline-block;
+            width: 28px;
+            height: 3px;
+            background: #DD7596;
+            margin-right: 10px;
+            vertical-align: middle;
+            border-radius: 3px;
         }
 
         .hero-title {
@@ -181,7 +234,7 @@ def inject_css():
         }
 
         .hero-subtitle {
-            color: #cbd5e1;
+            color: #E9ECFF;
             font-size: 1.05rem;
             line-height: 1.65;
             max-width: 850px;
@@ -193,7 +246,7 @@ def inject_css():
         ================================= */
 
         .section-label {
-            color: var(--text-color, #64748b);
+            color: #DD7596; 
             font-size: 0.75rem;
             font-weight: 750;
             letter-spacing: 0.12em;
@@ -208,7 +261,7 @@ def inject_css():
         ================================= */
 
         .chart-card {
-            background: var(--secondary-background-color, #ffffff);
+            background: rgba(128, 128, 128, 0.08);
             border: 1px solid rgba(128, 128, 128, 0.25);
             border-radius: 16px;
             padding: 1rem;
@@ -219,7 +272,8 @@ def inject_css():
 
         .chart-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+            box-shadow: 0 10px 25px rgba(221, 117, 150, 0.16); 
+            border-color: #DD7596;
         }
 
 
