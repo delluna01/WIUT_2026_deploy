@@ -60,7 +60,7 @@ st.html(
         </div>
 
         <div class="hero-title">
-            AML Alert Prioritization
+            AML Alert Prioritization 🚨
         </div>
 
         <div class="hero-subtitle">
@@ -249,9 +249,10 @@ if M:
     names = {"lgb": "LightGBM (3 seeds)", "cat": "CatBoost", "xgb": "XGBoost"}
     rows = "\n".join(f"| {names.get(k, k)} | {v:.4f} |" for k, v in ma.items())
     w = ", ".join(f"{names.get(k, k)} {v:.0%}" for k, v in M.get("weights", {}).items())
+    st.subheader("Model results")
     st.markdown(
         f"""
-**Model results** (5-fold out-of-fold ROC-AUC, {num('n_features')} features):
+5-fold out-of-fold ROC-AUC, {num('n_features')} features:
 
 | Model | ROC-AUC |
 |---|---|
