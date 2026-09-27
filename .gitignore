@@ -3,3 +3,4 @@ __pycache__/
 .ipynb_checkpoints/
 *.csv
 !submission/*.csv
+!app/assets/feature_importance.csv
