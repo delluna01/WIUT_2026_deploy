@@ -181,7 +181,15 @@ if M:
 """
     )
 figure("02_signals_over_time", "Weekly alerts in train and test")
-todo("insight for the alerts-over-time chart (from Member 2)")
+st.markdown(
+    """
+    The train set and test set represent the same time frame: January 1, 2025, to December 31, 2026
+    (the time frames coincide exactly). This is confirmed by the adversarial validation results
+    (AUC = 0.4987) — the value shows that train and test sets cannot be distinguished from each other,
+    meaning random (time-agnostic) cross-validation can safely be used. The weekly escalation rate
+    ranges from 6.8% to 28.4% (std ≈ 3.7 p.p.).
+    """
+)
 
 # ---------- 3. Target ----------
 st.markdown(
@@ -205,11 +213,35 @@ st.markdown(
 )
 st.header("Transactions: time, types, sizes", anchor="transactions")
 figure("03_tx_over_time", "Transactions per month")
-todo("insight for the activity-over-time chart (from Member 2)")
+st.markdown(
+    """
+    This graph has the form of a triangle: it increases from about 19k transactions/month (July 2024)
+    to its maximum value of 388k (July/October 2025) and decreases to about 23k (December 2026).
+    However, this has nothing to do with customer behavior — it is caused by the structure of the
+    database. Each alert consists of a transaction history of about 180 days before its signal date,
+    and the signal dates themselves are spread across 2025-2026.
+    """
+)
 figure("04_direction_type", "Transaction types and directions")
-todo("insight: which types are more frequent for escalated alerts (from Member 2)")
+st.markdown(
+    """
+    The combination of transaction types is almost the same for escalated and dismissed cases:
+    karta 53.8% vs 53.7%, bank_otkazmasi 39.4% vs 39.3%, naqd (cash) 6.29% vs 6.50%, xalqaro
+    (international) 0.45% vs 0.47%. The difference is negligible; however, the pattern is as
+    expected — the shares of naqd and xalqaro transactions are somewhat higher in escalated cases,
+    which is a typical (if weak) AML signal.
+    """
+)
 figure("05_amount_distribution", "Distribution of miqdor_indeksi")
-todo("insight about transaction sizes (from Member 2)")
+st.markdown(
+    """
+    Escalated alerts show slightly lower average miqdor_indeksi (mean −0.18, median −0.29)
+    compared to dismissed alerts (mean −0.12, median −0.24) — escalation is not linked with
+    "larger" amounts; if anything, the opposite. There is much more variance by transaction type:
+    the "largest" type is xalqaro (mean 1.99), followed by naqd (0.53) and bank_otkazmasi (0.14),
+    while karta is the smallest and negative (−0.43).
+    """
+)
 
 # ---------- 5. Pre-alert behaviour ----------
 st.markdown(
@@ -218,11 +250,43 @@ st.markdown(
 )
 st.header("Transaction Activity Before an Alert", anchor="behavior")
 figure("06_activity_before_signal", "Activity during the 90 days before the alert")
-todo("insight: how activity changes before escalated vs dismissed alerts (from Member 2)")
+st.markdown(
+    """
+    Background activity far from the signal (days 85-89) is steady at ~2.9-3.1 transactions/alert/day.
+    On the day before the signal there is a sharp spike of ~40-42 transactions/alert (~14x the
+    background rate), slightly higher for escalated cases (41.9 vs 40.3). Activity on the signal
+    day itself (day=0) is very low, but escalated cases show three times as much (0.136 vs 0.044).
+    Part of this spike may be a date-grouping artifact (signal_sanasi has no timestamp, so the
+    whole last calendar day falls into one bin), but the elevated activity right before the signal
+    is already captured by the window features (w1/w3/w7, etc.) in final.py.
+    """
+)
 figure("07_class_comparison", "Escalated vs dismissed alerts")
-todo("insight: which features differ most between the classes (from Member 2)")
+st.markdown(
+    """
+    For simple aggregates, the class differences are quite small: slightly more transactions
+    (523.8 vs 494.0 on average), slightly higher recent (7-day) activity (47.3 vs 45.5), slightly
+    higher shares of cash/international/outgoing transactions, and a slightly lower mean transaction
+    value. No single feature separates the classes on its own. This is consistent with final.py,
+    where the best OOF AUC on simple aggregates is only about 0.63, and advanced features
+    (time-decay, pass-through patterns, type entropy) are needed to push it above 0.64.
+    """
+)
 figure("08_hour_weekday", "Hour of day and day of week")
-todo("insight about time of day / weekday, or delete this block if the data has no time of day (from Member 2)")
+st.markdown(
+    """
+    Timestamps are not always midnight, so time-of-day is real. Activity is otherwise evenly spread
+    across weekdays (14.2-14.4% per day in both groups), with no meaningful weekend effect (weekend
+    transactions are 28.5% in both groups) and no difference in night-time activity (00:00-05:00,
+    ~23.1-23.2% in both groups).
+
+    🚩 Anomaly: transactions at hour 23:00 occur about three times more often (11.7% of all
+    transactions) than at any other hour (~3.8% each) — clearly not a random distribution. It looks
+    like a technical/data-quality artifact (e.g. records without an exact timestamp defaulting to
+    end-of-day) rather than a behavioral pattern, and is flagged here as a data-quality issue for
+    the team.
+    """
+)
 
 # ---------- 6. Features and model ----------
 st.markdown(
@@ -269,7 +333,17 @@ if fi_path.exists():
     fi = pd.read_csv(fi_path).head(15)
     st.markdown("**Top-15 features** (share of total LightGBM gain)")
     st.bar_chart(fi.set_index("feature")["importance"], horizontal=True)
-    todo("1–2 sentences: which feature groups dominate the top-15 and how that matches the EDA (Member 1 reviews)")
+    st.markdown(
+        """
+        The top-15 are dominated by size statistics split by direction × type — especially the
+        overall minimum transaction amount (`all_min`, ~11% of total gain) and the mean/max/sum of
+        bank_otkazmasi and karta amounts by direction, with naqd-related features close behind. This
+        matches the EDA: transaction size mainly differs by type rather than by outcome (see the
+        `miqdor_indeksi` chart), so direction × type breakdowns of size carry more signal than the
+        outcome-level differences alone. Window and time-decay features (e.g. `decay60_in_share`,
+        `w90_max`) also make the top-20, reflecting the pre-alert activity spike identified earlier.
+        """
+    )
 else:
     st.info("Feature importance will appear after running notebooks/final.ipynb.")
 
@@ -288,4 +362,24 @@ st.markdown(
   is not in the transaction log.
 """
 )
-todo("add 2–3 bullet points with the team's most important EDA findings (from Member 2's key findings)")
+st.markdown(
+    """
+- The target is imbalanced, with only 17.2% escalated cases, so we use stratified cross-validation and
+  PR-AUC as an additional evaluation metric.
+- Train and test sets cover an identical period (2025-01-01 to 2026-12-31). Adversarial validation shows
+  the samples cannot be distinguished (AUC ≈ 0.50), so standard random cross-validation can safely be used.
+- Simple aggregated features computed over the whole period (transaction count, type shares, average
+  amount) show very little difference between escalated and dismissed alerts — the signal is weak and
+  spread across many features.
+- A sharp one-day spike in activity right before the signal (~14x the background rate) is the most
+  informative pattern, and it is somewhat stronger for escalated alerts — this motivated the window and
+  time-decay features in the model.
+- Indeed, the classical AML features (the proportion of cash and international operations) are slightly
+  greater for cases with escalation, but the impact is very small by itself.
+- A technical anomaly has been found: 23:00 hour has 3 times more transactions than any other hour –
+  this is probably the default time for those transactions for which the exact time was not specified.
+- The final model (ensemble of LightGBM, CatBoost and XGBoost with 80 features) provides OOF AUC of
+  0.6425; the problem is quite challenging, with the simplest features providing a random score and
+  feature engineering giving the main contribution to the result.
+    """
+)

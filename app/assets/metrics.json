@@ -1,10 +1,10 @@
 {
-  "oof_auc": 0.6425,
+  "oof_auc": 0.6419,
   "time_holdout_auc": 0.6619,
   "model_auc": {
     "lgb": 0.6409,
     "cat": 0.6372,
-    "xgb": 0.6375
+    "xgb": 0.6377
   },
   "weights": {
     "lgb": 0.5,
